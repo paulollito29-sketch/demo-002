@@ -7,22 +7,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name="Categories")
+@Table(name="customers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CategoryEntity {
+public class CustomerEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCategory;
+    private Long idCustomer;
     private String name;
-    private String description;
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-    private List<ProductEntity> product;
     private Boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
+
 }
