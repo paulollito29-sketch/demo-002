@@ -7,10 +7,8 @@ public record SaleDetailCreate(
         @NotNull(message = "quantity cannot be null")
         @Positive(message = "quantity must be greater than 0")
         Integer quantity,
-
         @NotNull(message = "productId cannot be null")
         Long productId,
-
         @NotNull(message = "saleId cannot be null")
         Long saleId
 ) {

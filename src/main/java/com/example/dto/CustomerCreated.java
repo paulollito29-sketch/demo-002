@@ -1,4 +1,4 @@
 package com.example.dto;
 
-public record CustomerCreated(Long customerId, String name){
+public record CustomerCreated(Long customerId, String name, String dni){
 }

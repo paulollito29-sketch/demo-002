@@ -13,9 +13,9 @@ public class SaleMapper {
 
     public static SaleEntity toEntityCreated(SaleCreate dto, CustomerEntity customer) {
         return SaleEntity.builder()
-                .subTotal(dto.subTotal())
-                .tax(dto.tax())
-                .total(dto.total())
+                .subTotal(0.0)
+                .tax(0.0)
+                .total(0.0)
                 .description(dto.description())
                 .customer(customer)
                 .enabled(true)
@@ -24,9 +24,9 @@ public class SaleMapper {
     }
 
     public static SaleEntity toEntityUpdated(SaleEntity entity, SaleUpdate dto, CustomerEntity customer) {
-        entity.setSubTotal(dto.subTotal());
-        entity.setTax(dto.tax());
-        entity.setTotal(dto.total());
+        entity.setSubTotal(0.0);
+        entity.setTax(0.0);
+        entity.setTotal(0.0);
         entity.setDescription(dto.description());
         entity.setCustomer(customer);
         entity.setUpdatedAt(LocalDateTime.now());

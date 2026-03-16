@@ -16,4 +16,8 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
     boolean existsByEnabledIsTrueAndNameIgnoreCase(String name);
 
     boolean existsByEnabledIsTrueAndNameIgnoreCaseAndIdCustomerNot(String name, Long id);
+
+    boolean existsByEnabledIsTrueAndDni(String dni);
+
+    boolean existsByEnabledIsTrueAndDniAndIdCustomerNot(String dni, Long id);
 }

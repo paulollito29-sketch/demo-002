@@ -19,6 +19,7 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCustomer;
     private String name;
+    private String dni;
     private Boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -37,7 +37,7 @@ public class CustomerRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerUpdated> update(@PathVariable Long id,
-                                                  @RequestBody CustomerUpdate dto) {
+                                                  @Valid @RequestBody CustomerUpdate dto) {
         var CustomerUpdated = customerService.update(dto, id);
         return ResponseEntity.ok(CustomerUpdated);
     }

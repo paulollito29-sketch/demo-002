@@ -26,6 +26,9 @@ public class CustomerService {
         if (customerRepository.existsByEnabledIsTrueAndNameIgnoreCase(dto.name())){
             throw new ResourceAlreadyExistsException("this name -"+dto.name()+ "- already exists");
         }
+        if (customerRepository.existsByEnabledIsTrueAndDni(dto.dni())){
+            throw new ResourceAlreadyExistsException("this dni -"+dto.dni()+ "- already exists");
+        }
         var customerCreated = CustomerMapper.toEntityCreated(dto);
         var customerSaved = customerRepository.save(customerCreated);
         return CustomerMapper.toCustomerCreated(customerSaved);
@@ -42,6 +45,9 @@ public class CustomerService {
                 .orElseThrow(()-> new RuntimeException("customer doesnt exists"));
         if (customerRepository.existsByEnabledIsTrueAndNameIgnoreCaseAndIdCustomerNot(dto.name(), id)){
             throw new ResourceAlreadyExistsException("this name -"+dto.name()+ "- already exists");
+        }
+        if (customerRepository.existsByEnabledIsTrueAndDniAndIdCustomerNot(dto.dni(), id)){
+            throw new ResourceAlreadyExistsException("this dni -"+dto.dni()+ "- already exists");
         }
         var customerCreated = CustomerMapper.toEntityUpdated(dto,customer);
         var customerSaved = customerRepository.save(customerCreated);

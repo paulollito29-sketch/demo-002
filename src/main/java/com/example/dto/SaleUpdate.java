@@ -11,10 +11,6 @@ public record SaleUpdate(
 
         @NotNull(message = "this cannot be null")
         @PositiveOrZero(message = "must be greater than or equal to 0")
-        Double tax,
-
-        @NotNull(message = "this cannot be null")
-        @PositiveOrZero(message = "must be greater than or equal to 0")
         Double total,
 
         @NotNull(message = "this cannot be null")

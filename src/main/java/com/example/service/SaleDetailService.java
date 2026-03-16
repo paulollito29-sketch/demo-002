@@ -41,6 +41,11 @@ public class SaleDetailService {
         if (saleDetailRepository.existsByEnabledIsTrueAndSale_IdSaleAndProduct_IdProduct(dto.saleId(), dto.productId())) {
             throw new ResourceAlreadyExistsException("product already added to this sale");
         }
+        double lineTotal = product.getPrice() * dto.quantity();
+        sale.setSubTotal(sale.getSubTotal() + lineTotal);
+        sale.setTax(sale.getSubTotal() * 0.18);
+        sale.setTotal(sale.getSubTotal() + sale.getTax());
+        saleRepository.save(sale);
         var entity = SaleDetailMapper.toEntityCreated(dto, product, sale);
         return SaleDetailMapper.toCreated(saleDetailRepository.save(entity));
     }
@@ -61,14 +66,29 @@ public class SaleDetailService {
         if (saleDetailRepository.existsByEnabledIsTrueAndSale_IdSaleAndProduct_IdProductAndIdSaleDetailNot(dto.saleId(), dto.productId(), id)) {
             throw new ResourceAlreadyExistsException("product already added to this sale");
         }
+        // Subtract old line total
+        double oldLineTotal = saleDetail.getUnitPrice() * saleDetail.getQuantity();
+        sale.setSubTotal(sale.getSubTotal() - oldLineTotal);
+        // Add new line total
+        double newLineTotal = product.getPrice() * dto.quantity();
+        sale.setSubTotal(sale.getSubTotal() + newLineTotal);
+        // Recalculate tax and total
+        sale.setTax(sale.getSubTotal() * 0.18);
+        sale.setTotal(sale.getSubTotal() + sale.getTax());
+        saleRepository.save(sale);
         var updated = SaleDetailMapper.toEntityUpdated(saleDetail, dto, product, sale);
         return SaleDetailMapper.toUpdated(saleDetailRepository.save(updated));
     }
 
     public void delete(Long id) {
-        saleDetailRepository.findFirstByEnabledIsTrueAndIdSaleDetail(id)
-                .map(SaleDetailMapper::toEntityDeleted)
-                .map(saleDetailRepository::save)
+        var saleDetail = saleDetailRepository.findFirstByEnabledIsTrueAndIdSaleDetail(id)
                 .orElseThrow(() -> new ResourceNotFoundException("sale detail doesn't exist"));
+        var sale = saleDetail.getSale();
+        double lineTotal = saleDetail.getUnitPrice() * saleDetail.getQuantity();
+        sale.setSubTotal(sale.getSubTotal() - lineTotal);
+        sale.setTax(sale.getSubTotal() * 0.18);
+        sale.setTotal(sale.getSubTotal() + sale.getTax());
+        saleRepository.save(sale);
+        saleDetailRepository.save(SaleDetailMapper.toEntityDeleted(saleDetail));
     }
 }
