@@ -73,4 +73,9 @@ public class ProductService {
                 .map(ProductMapper::toFindAll)
                 .toList();
     }
+
+    public List<ProductMostSoldDTO> getMostSoldProducts() {
+        return productRepository.findMostSoldProducts();
+    }
+
 }

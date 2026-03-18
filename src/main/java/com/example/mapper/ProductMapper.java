@@ -5,6 +5,7 @@ import com.example.entity.CategoryEntity;
 import com.example.entity.ProductEntity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ProductMapper {
 
@@ -73,6 +74,18 @@ public class ProductMapper {
                 entity.getCategory().getIdCategory()
         );
     }
-
-
+    //method to find statistical fashion by category
+    public static ProductFindOne toProduct(ProductFindAll entity){
+        return new ProductFindOne(
+                entity.id(),
+                entity.name(),
+                entity.price(),
+                entity.categoryName()
+        );
+    }
+    public static List<ProductFindOne> toProductList(List<ProductFindAll> entities){
+        return entities.stream()
+                .map(ProductMapper::toProduct)
+                .toList();
+    }
 }

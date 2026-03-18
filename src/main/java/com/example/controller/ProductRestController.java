@@ -63,4 +63,9 @@ public class ProductRestController {
         return ResponseEntity.ok(productService.findAllOrderedByCategory());
     }
 
+    @GetMapping("/most-sold")
+    public List<ProductMostSoldDTO> getMostSoldProducts() {
+        return productService.getMostSoldProducts();
+    }
+
 }
