@@ -1,6 +1,10 @@
 package com.example.dto;
 
-import java.util.List;
+import java.time.LocalDate;
 
-public record SaleConsultBetweenDate () {
+public record SaleConsultBetweenDate (String name,
+                                      Double subtotal,
+                                      Double tax,
+                                      Double total,
+                                      LocalDate saleDate) {
 }

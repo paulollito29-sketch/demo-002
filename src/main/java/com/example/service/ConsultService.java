@@ -1,7 +1,9 @@
 package com.example.service;
 
 import com.example.dto.SaleBetweenDatesDto;
+import com.example.dto.SalesFilteredDto;
 import com.example.entity.SaleEntity;
+import com.example.mapper.ConsultMapper;
 import com.example.repository.SaleRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,8 @@ public class ConsultService {
         this.saleRepository = saleRepository;
     }
 
-    public List<SaleEntity> getSaleFromTo(SaleBetweenDatesDto saleBetweenDatesDTO) {
-        return saleRepository.findSalesByDateRange(saleBetweenDatesDTO.startDate(), saleBetweenDatesDTO.endDate());
+    public SalesFilteredDto getSaleFromTo(SaleBetweenDatesDto saleBetweenDatesDTO) {
+        var salesFiltered = saleRepository.findSalesByDateRange(saleBetweenDatesDTO.startDate(), saleBetweenDatesDTO.endDate()).stream().toList();
+        return ConsultMapper.toSaleConsultBetweenDate(salesFiltered);
     }
 }

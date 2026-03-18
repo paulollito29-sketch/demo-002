@@ -1,11 +1,29 @@
 package com.example.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.dto.SaleBetweenDatesDto;
+import com.example.dto.SalesFilteredDto;
+import com.example.service.ConsultService;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
+@RequestMapping("/api/consult")
+@CrossOrigin(origins = "*")
 public class ConsultRestController {
 
+    private final ConsultService consultService;
 
+    public ConsultRestController(ConsultService consultService) {
+        this.consultService = consultService;
+    }
+
+    @GetMapping("/sales-between-dates")
+    public SalesFilteredDto getSalesBetweenDates(
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate
+    ) {
+        return consultService.getSaleFromTo(
+                new com.example.dto.SaleBetweenDatesDto(startDate, endDate));
+    }
 }
