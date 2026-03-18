@@ -4,6 +4,7 @@ import com.example.dto.*;
 import com.example.entity.CustomerEntity;
 import com.example.entity.SaleEntity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class SaleMapper {
@@ -18,6 +19,7 @@ public class SaleMapper {
                 .total(0.0)
                 .description(dto.description())
                 .customer(customer)
+                .saleDate(LocalDate.now())
                 .enabled(true)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -46,7 +48,8 @@ public class SaleMapper {
                 entity.getTax(),
                 entity.getTotal(),
                 entity.getDescription(),
-                entity.getCustomer().getIdCustomer()
+                entity.getCustomer().getIdCustomer(),
+                entity.getSaleDate()
         );
     }
 

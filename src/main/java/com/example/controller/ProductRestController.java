@@ -52,4 +52,15 @@ public class ProductRestController {
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<ProductFindAll>> findByCategory(@PathVariable Long categoryId) {
+        return ResponseEntity.ok(productService.findByCategory(categoryId));
+    }
+
+    @GetMapping("/ordered-by-category")
+    public ResponseEntity<List<ProductFindAll>> findAllOrderedByCategory() {
+        return ResponseEntity.ok(productService.findAllOrderedByCategory());
+    }
+
 }

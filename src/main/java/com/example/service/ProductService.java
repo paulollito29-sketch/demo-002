@@ -29,10 +29,11 @@ public class ProductService {
     }
 
     public ProductCreated create(ProductCreate dto) {
+
         if (productRepository.existsByEnabledIsTrueAndNameIgnoreCase(dto.name())) {
             throw new ResourceAlreadyExistsException("product already exists");
         }
-        var category = categoryRepository.findFirstByEnabledIsTrueAndIdCategory(dto.categoryId())
+        var category = categoryRepository.findByEnabledIsTrueAndIdCategory(dto.categoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
         return ProductMapper.toCreated(productRepository.save(ProductMapper.toEntityCreated(dto, category)));
     }
@@ -46,7 +47,7 @@ public class ProductService {
     public ProductUpdated update(Long id, ProductUpdate dto) {
         var product = productRepository.findFirstByEnabledIsTrueAndIdProduct(id)
                 .orElseThrow(() -> new ResourceNotFoundException("product does'nt exist"));
-        var category = categoryRepository.findFirstByEnabledIsTrueAndIdCategory(dto.categoryId())
+        var category = categoryRepository.findByEnabledIsTrueAndIdCategory(dto.categoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
         if (productRepository.existsByEnabledIsTrueAndNameIgnoreCase(dto.name())) {
             throw new ResourceAlreadyExistsException("product already exists");
@@ -61,4 +62,15 @@ public class ProductService {
 
     }
 
+    public List<ProductFindAll> findByCategory(Long categoryId) {
+        return productRepository.findAllByCategoryId(categoryId).stream()
+                .map(ProductMapper::toFindAll)
+                .toList();
+    }
+
+    public List<ProductFindAll> findAllOrderedByCategory() {
+        return productRepository.findAllByEnabledIsTrueOrderByCategory_IdCategoryAscIdProductDesc().stream()
+                .map(ProductMapper::toFindAll)
+                .toList();
+    }
 }

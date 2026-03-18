@@ -9,11 +9,9 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
-    @EntityGraph(attributePaths = "product")
     List<CategoryEntity> findAllByEnabledIsTrueOrderByIdCategoryDesc();
 
-    @EntityGraph(attributePaths = "product")
-    Optional<CategoryEntity> findFirstByEnabledIsTrueAndIdCategory (Long id);
+    Optional<CategoryEntity> findByEnabledIsTrueAndIdCategory(Long id);
 
     boolean existsByEnabledIsTrueAndNameIgnoreCase(String name);
 

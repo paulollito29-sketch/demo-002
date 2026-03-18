@@ -26,4 +26,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
         ORDER BY id_product DESC
         """, nativeQuery = true)
     List<ProductEntity> findAllByCategoryId(@Param("categoryId") Long categoryId);
+
+
+    List<ProductEntity> findAllByEnabledIsTrue();
+
+    List<ProductEntity> findAllByEnabledIsTrueOrderByCategory_IdCategoryAscIdProductDesc();
 }

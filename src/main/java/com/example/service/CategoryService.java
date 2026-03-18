@@ -35,13 +35,13 @@ public class CategoryService {
     }
 
     public CategoryFindOne findOne(Long id) {
-        var category = categoryRepository.findFirstByEnabledIsTrueAndIdCategory(id)
+        var category = categoryRepository.findByEnabledIsTrueAndIdCategory(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
         return CategoryMapper.ToCategoryFindOne(category);
     }
 
     public CategoryUpdated update(Long id, CategoryUpdate dto) {
-        var category = categoryRepository.findFirstByEnabledIsTrueAndIdCategory(id)
+        var category = categoryRepository.findByEnabledIsTrueAndIdCategory(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
         if (categoryRepository.
@@ -54,7 +54,7 @@ public class CategoryService {
     }
 
     public void delete(Long id) {
-        var category = categoryRepository.findFirstByEnabledIsTrueAndIdCategory(id)
+        var category = categoryRepository.findByEnabledIsTrueAndIdCategory(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
         var categoryDeleted = CategoryMapper.ToEntity(category);
         categoryRepository.save(categoryDeleted);
