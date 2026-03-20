@@ -24,6 +24,6 @@ public class ConsultRestController {
             @RequestParam LocalDate endDate
     ) {
         return consultService.getSaleFromTo(
-                new com.example.dto.SaleBetweenDatesDto(startDate, endDate));
+                new SaleBetweenDatesDto(startDate, endDate));
     }
 }
