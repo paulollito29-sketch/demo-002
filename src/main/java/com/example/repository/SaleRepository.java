@@ -20,4 +20,7 @@ public interface SaleRepository extends JpaRepository<SaleEntity, Long> {
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
+
+    List<SaleEntity> findAllByEnabledIsTrueAndCustomer_IdCustomer(Long idCustomer);
+
 }

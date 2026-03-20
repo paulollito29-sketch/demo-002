@@ -5,6 +5,7 @@ import com.example.exception.ResourceAlreadyExistsException;
 import com.example.exception.ResourceNotFoundException;
 import com.example.mapper.CategoryMapper;
 import com.example.repository.CategoryRepository;
+import com.example.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +14,11 @@ import java.util.List;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
     }
 
     public List<CategoryFindAll> findAll() {
@@ -56,6 +59,9 @@ public class CategoryService {
     public void delete(Long id) {
         var category = categoryRepository.findByEnabledIsTrueAndIdCategory(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+        if(!productRepository.findAllByEnabledIsTrueAndCategory_IdCategory(id).isEmpty()) {
+            throw new ResourceAlreadyExistsException("Category has products, can't be deleted.");
+        }
         var categoryDeleted = CategoryMapper.ToEntity(category);
         categoryRepository.save(categoryDeleted);
     }

@@ -47,4 +47,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     ORDER BY SUM(d.quantity) DESC
 """)
     List<ProductMostSoldDTO> findMostSoldProducts();
+
+    List<ProductEntity> findAllByEnabledIsTrueAndCategory_IdCategory(Long idCategory);
 }

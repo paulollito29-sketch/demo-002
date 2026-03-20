@@ -5,6 +5,7 @@ import com.example.entity.CustomerEntity;
 import com.example.exception.ResourceAlreadyExistsException;
 import com.example.mapper.CustomerMapper;
 import com.example.repository.CustomerRepository;
+import com.example.repository.SaleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +14,11 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final SaleRepository saleRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository,  SaleRepository saleRepository) {
         this.customerRepository = customerRepository;
+        this.saleRepository = saleRepository;
     }
 
     public List<CustomerFindAll> findAll() {
@@ -57,6 +60,9 @@ public class CustomerService {
     public void delete(Long id){
         var customer = customerRepository.findFirstByEnabledIsTrueAndIdCustomer(id)
                 .orElseThrow(()-> new RuntimeException("customer doesnt exists"));
+        if(!saleRepository.findAllByEnabledIsTrueAndCustomer_IdCustomer(id).isEmpty()){
+            throw new RuntimeException("customer has sales, can't be deleted");
+        }
         customerRepository.save(CustomerMapper.toCustomerDeleted(customer));
     }
 
