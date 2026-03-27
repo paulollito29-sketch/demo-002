@@ -14,6 +14,7 @@ public class ConsultMapper {
     //implementar el metodo para convertir a saleConsultBetweenDate
     public static SaleConsultBetweenDate toDto(SaleEntity sale) {
         return new SaleConsultBetweenDate(
+                sale.getIdSale(),
                 sale.getCustomer().getName(),
                 sale.getSubTotal(),
                 sale.getTax(),

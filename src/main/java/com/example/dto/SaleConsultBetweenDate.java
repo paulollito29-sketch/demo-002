@@ -2,7 +2,8 @@ package com.example.dto;
 
 import java.time.LocalDate;
 
-public record SaleConsultBetweenDate (String name,
+public record SaleConsultBetweenDate (Long saleId,
+                                      String name,
                                       Double subtotal,
                                       Double tax,
                                       Double total,
